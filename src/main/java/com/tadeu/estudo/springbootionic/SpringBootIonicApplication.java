@@ -9,10 +9,15 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import com.tadeu.estudo.springbootionic.domain.Categoria;
 import com.tadeu.estudo.springbootionic.domain.Cidade;
+import com.tadeu.estudo.springbootionic.domain.Cliente;
+import com.tadeu.estudo.springbootionic.domain.Endereco;
 import com.tadeu.estudo.springbootionic.domain.Estado;
 import com.tadeu.estudo.springbootionic.domain.Produto;
+import com.tadeu.estudo.springbootionic.domain.enums.TipoCliente;
 import com.tadeu.estudo.springbootionic.repositories.CategoriaRepository;
 import com.tadeu.estudo.springbootionic.repositories.CidadeRepository;
+import com.tadeu.estudo.springbootionic.repositories.ClienteRepository;
+import com.tadeu.estudo.springbootionic.repositories.EnderecoRepository;
 import com.tadeu.estudo.springbootionic.repositories.EstadoRepository;
 import com.tadeu.estudo.springbootionic.repositories.ProdutoRepository;
 
@@ -30,6 +35,12 @@ public class SpringBootIonicApplication implements CommandLineRunner {
 	
 	@Autowired
 	private CidadeRepository cidadeRepository;
+	
+	@Autowired
+	private ClienteRepository clienteRepository;
+	
+	@Autowired
+	private EnderecoRepository enderecoRepository;
 	
 	public static void main(String[] args) {
 		SpringApplication.run(SpringBootIonicApplication.class, args);
@@ -70,5 +81,18 @@ public class SpringBootIonicApplication implements CommandLineRunner {
 		
 		estadoRepository.saveAll(Arrays.asList(est1, est2));
 		cidadeRepository.saveAll(Arrays.asList(c1, c2, c3));
+		
+		
+		Cliente cli1 = new Cliente(null, "Maria Silva", "maria@gmail.com", "36378912377", TipoCliente.PF);
+		cli1.getTelefones().addAll(Arrays.asList("27363323", "93088392"));
+		
+		Endereco e1 = new Endereco(null, "Rua Flores", "300", "Apto 303", "Jardim", "38220834", cli1, c1);
+		Endereco e2 = new Endereco(null, "Avenida Matos", "105", "Sala 800", "Centro", "38777012", cli1, c2);
+		
+		cli1.getEnderecos().addAll(Arrays.asList(e1, e2));
+		
+		clienteRepository.saveAll(Arrays.asList(cli1));
+		enderecoRepository.saveAll(Arrays.asList(e1, e2));
+		
 	}
 }
