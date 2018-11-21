@@ -1,8 +1,6 @@
 package com.tadeu.estudo.springbootionic.resources;
 
 import java.net.URI;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,17 +21,6 @@ public class CategoriaResource {
 
 	@Autowired
 	private CategoriaService service;
-	
-	@RequestMapping(method=RequestMethod.GET)
-	public List<Categoria> listar() {
-		Categoria c1 = new Categoria(1, "Informática");
-		Categoria c2 = new Categoria(1, "Escritório");
-		
-		List<Categoria> lista = new ArrayList<>();
-		lista.addAll(Arrays.asList(c1, c2));
-		
-		return lista;
-	}
 	
 	@RequestMapping(value="/{id}", method=RequestMethod.GET)
 	public ResponseEntity<Categoria> find(@PathVariable Integer id) {
@@ -65,5 +52,12 @@ public class CategoriaResource {
 		service.delete(id);
 		
 		return ResponseEntity.noContent().build();
+	}
+	
+	@RequestMapping(method=RequestMethod.GET)
+	public ResponseEntity<List<Categoria>> findAll() {
+		List<Categoria> list = service.findAll();
+		
+		return ResponseEntity.ok().body(list);
 	}
 }
