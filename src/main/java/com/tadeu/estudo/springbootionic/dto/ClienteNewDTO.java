@@ -9,6 +9,22 @@ import org.hibernate.validator.constraints.Length;
 
 import com.tadeu.estudo.springbootionic.services.validation.ClienteInsert;
 
+/*
+{
+    "nome": "Elizeu Pinto",
+    "email": "upinto@elizeu.com",
+    "cpfCnpj": "00000000191",
+    "tipoCliente": 1,
+    "telefone1": "0000000-000",
+    "telefone2": "2121212-212",
+    "logradouro": "Rua Marcinha",
+    "numero": "20",
+    "complemento": "casa",
+    "bairro": "Oito 8",
+    "cep": "80229-012",
+    "cidadeId": 2
+}
+ */
 @ClienteInsert
 public class ClienteNewDTO implements Serializable {
 
