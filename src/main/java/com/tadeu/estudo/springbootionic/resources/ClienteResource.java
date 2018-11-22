@@ -19,6 +19,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.tadeu.estudo.springbootionic.domain.Cliente;
 import com.tadeu.estudo.springbootionic.dto.ClienteDTO;
+import com.tadeu.estudo.springbootionic.dto.ClienteNewDTO;
 import com.tadeu.estudo.springbootionic.services.ClienteService;
 
 @RestController
@@ -36,7 +37,7 @@ public class ClienteResource {
 	}
 	
 	@RequestMapping(method=RequestMethod.POST)
-	public ResponseEntity<Void> insert(@Valid @RequestBody ClienteDTO dto) {
+	public ResponseEntity<Void> insert(@Valid @RequestBody ClienteNewDTO dto) {
 		Cliente obj = service.fromDTO(dto);
 		obj = service.insert(obj);
 		
