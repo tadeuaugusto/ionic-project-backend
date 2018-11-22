@@ -1,12 +1,19 @@
 package com.tadeu.estudo.springbootionic.services;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 
 import com.tadeu.estudo.springbootionic.domain.Cliente;
+import com.tadeu.estudo.springbootionic.dto.ClienteDTO;
 import com.tadeu.estudo.springbootionic.repositories.ClienteRepository;
+import com.tadeu.estudo.springbootionic.services.exception.DataIntegrityException;
 import com.tadeu.estudo.springbootionic.services.exception.ObjectNotFoundException;
 
 @Service
@@ -19,5 +26,45 @@ public class ClienteService {
 		Optional<Cliente> obj = repo.findById(id);
 		return obj.orElseThrow(() -> new ObjectNotFoundException(
 				"Objeto nao encontrado! Id: " + id + ", Tipo: " + Cliente.class.getName()));
+	}
+	
+	public Cliente insert(Cliente obj) {
+		obj.setId(null);
+		return repo.save(obj);
+	}
+	
+	public Cliente update(Cliente obj) {
+		Cliente newObj = find(obj.getId());
+		updateData(newObj, obj);
+		return repo.save(newObj);
+	}
+	
+	private void updateData(Cliente newObj, Cliente obj) {
+		// TODO Auto-generated method stub
+		newObj.setNome(obj.getNome());
+		newObj.setEmail(obj.getEmail());
+	}
+
+	public void delete(Integer id) {
+		try {
+			repo.deleteById(id);
+		} catch (DataIntegrityViolationException e) {
+			throw new DataIntegrityException("Não é possível excluir pq ha entidades relacionadas (Pedidos e Enderecos)");
+		}
+	}
+	
+	public List<Cliente> findAll() {
+		return repo.findAll();
+	}
+
+	public Page<Cliente> findPage(Integer page, Integer linesPerPage, String direction, String orderBy) {
+		// TODO Auto-generated method stub
+		PageRequest pageRequest = PageRequest.of(page,  linesPerPage, Direction.valueOf(direction), orderBy);
+		
+		return repo.findAll(pageRequest);
+	}
+
+	public Cliente fromDTO(ClienteDTO dto) {
+		return new Cliente(dto.getId(), dto.getNome(), dto.getEmail(), null, null);
 	}
 }
