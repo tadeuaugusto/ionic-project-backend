@@ -19,7 +19,7 @@ public class URL {
 		}
 		*/
 		
-		return Arrays.asList(vetor).stream().map(x -> Integer.parseInt(x)).collect(Collectors.toList());
+		return Arrays.asList(vetor).stream().map(x -> Integer.parseInt(x.trim())).collect(Collectors.toList());
 	}
 	
 	public static String decodeParam(String s) {

@@ -9,6 +9,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.tadeu.estudo.springbootionic.domain.Cidade;
 import com.tadeu.estudo.springbootionic.domain.Cliente;
@@ -36,6 +37,7 @@ public class ClienteService {
 				"Objeto nao encontrado! Id: " + id + ", Tipo: " + Cliente.class.getName()));
 	}
 	
+	@Transactional
 	public Cliente insert(Cliente obj) {
 		obj.setId(null);
 		obj = repo.save(obj);
@@ -56,6 +58,8 @@ public class ClienteService {
 	}
 
 	public void delete(Integer id) {
+		find(id);
+		
 		try {
 			repo.deleteById(id);
 		} catch (DataIntegrityViolationException e) {
