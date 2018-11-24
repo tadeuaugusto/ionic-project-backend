@@ -6,10 +6,11 @@ import java.util.stream.Collectors;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import com.tadeu.estudo.springbootionic.domain.enums.Perfil;
 
-public class UserSpringScy implements org.springframework.security.core.userdetails.UserDetails {
+public class UserSpringScy implements UserDetails {
 
 	private static final long serialVersionUID = 1L;
 	
@@ -74,5 +75,9 @@ public class UserSpringScy implements org.springframework.security.core.userdeta
 	public boolean isEnabled() {
 		// TODO Auto-generated method stub
 		return true;
+	}
+	
+	public boolean hasRole(Perfil perfil) {
+		return getAuthorities().contains(new SimpleGrantedAuthority(perfil.getDesc()));
 	}
 }
