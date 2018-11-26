@@ -8,6 +8,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.tadeu.estudo.springbootionic.domain.Cliente;
 import com.tadeu.estudo.springbootionic.domain.ItemPedido;
@@ -49,10 +50,31 @@ public class PedidoService {
 				"Objeto nao encontrado! Id: " + id + ", Tipo: " + Pedido.class.getName()));
 	}
 
+	/**
+{
+	"cliente" : {"id" : 1},
+	"enderecoDeEntrega" : {"id" : 1},
+	"pagamento" : {
+	"numeroDeParcelas" : 10,
+	"@type": "pagamentoComCartao"
+},
+"itens" : 
+[{
+		"quantidade" : 2,
+		"produto" : {"id" : 3}
+	},
+	{
+		"quantidade" : 1,
+		"produto" : {"id" : 1}
+	}
+]}
+	 */
+	@Transactional
 	public Pedido insert(Pedido pedido) {
 		// TODO Auto-generated method stub
 		pedido.setId(null);
 		pedido.setInstante(new Date());
+		pedido.setCliente(clienteService.find(pedido.getCliente().getId()));
 		pedido.getPagamento().setEstado(EstadoPagamento.PENDENTE);
 		pedido.getPagamento().setPedido(pedido);
 		
@@ -71,6 +93,8 @@ public class PedidoService {
 			ip.setPedido(pedido);
 		}
 		itemPedidoRepository.saveAll(pedido.getItens());
+		
+		System.out.println("-------------------\n" + pedido + "\n-------------------");
 		
 		return pedido;
 	}
