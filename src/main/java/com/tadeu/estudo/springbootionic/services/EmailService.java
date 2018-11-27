@@ -1,5 +1,7 @@
 package com.tadeu.estudo.springbootionic.services;
 
+import javax.mail.internet.MimeMessage;
+
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.stereotype.Service;
 
@@ -11,4 +13,8 @@ public interface EmailService {
 	void sendOrderConfirmationEmail(Pedido pedido);
 	
 	void sendEmail(SimpleMailMessage msg);
+	
+	void sendOrderConfirmationHtmlEmail(Pedido pedido);
+	
+	void sendHtmlEmail(MimeMessage msg);
 }

@@ -98,6 +98,7 @@ public class PedidoService {
 		
 		System.out.println("-------------------\n" + pedido + "\n-------------------");
 		emailService.sendOrderConfirmationEmail(pedido);
+		emailService.sendOrderConfirmationHtmlEmail(pedido);
 		
 		return pedido;
 	}
