@@ -17,6 +17,7 @@ import com.amazonaws.services.s3.model.PutObjectRequest;
 public class S3Service {
 
 	private Logger LOG = LoggerFactory.getLogger(S3Service.class);
+	
 	@Autowired
 	private AmazonS3 s3client;
 	

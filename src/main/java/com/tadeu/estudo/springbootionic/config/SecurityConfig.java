@@ -43,24 +43,26 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	
 	private static final String[] PUBLIC_MATCHERS_GET = {
 			"/produtos/**",
-			"/categorias/**",
-			"/clientes/**"
+			"/categorias/**"
 	};
 	
 	private static final String[] PUBLIC_MATCHERS_POST = {
-			// "/clientes/**"
+			"/clientes/**",
+			"/auth/forgot/**"
 	};
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-		/*
+		
 		// if especifico para o banco de dados H2
 		if (Arrays.asList(env.getActiveProfiles()).contains("test")) {
 			http.headers().frameOptions().disable();
 		}
-		*/
+		
+		/*
 		System.out.println("PRINT ENV ===========*:" + env);
 		http.headers().frameOptions().disable();
+		*/
 		
 		http.cors().and().csrf().disable();
 		http.authorizeRequests()
@@ -84,6 +86,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	CorsConfigurationSource corsConfigurationSource() {
 		CorsConfiguration configuration = new CorsConfiguration().applyPermitDefaultValues();
 		configuration.setAllowedMethods(Arrays.asList("POST", "GET", "PUT", "DELETE", "OPTIONS"));
+		// configuration.setAllowedHeaders(Arrays.asList("Authorization"));
 		final UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
 		source.registerCorsConfiguration("/**", configuration);
 		return source;
